@@ -12,6 +12,15 @@ class AuthenticationController < ApplicationController
    end
  end
 
- private
-
-end
+ def register
+   @user = User.new(username: params[:authentication][:username], name: params[:authentication][:name], password: params[:authentication][:password])
+   if @user.save
+     command = AuthenticateUser.call(params[:username], params[:password])
+     if command.success?
+       render json: { token: command.result, username: @user.username, user_id: @user.id }
+     end
+   else
+     render json: { error: command.errors }, status: :unauthorized
+   end
+  end
+ end

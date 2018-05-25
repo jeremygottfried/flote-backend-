@@ -19,8 +19,10 @@ class UsersController < ApplicationController
     @notes = @user.notes
     render json: @notes
   end
+
   # POST /users
   def create
+    byebug
     @user = User.new(user_params)
 
     if @user.save
@@ -56,6 +58,7 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:username, :name, :password, :email)
+      params.permit(:username, :name, :password)
     end
+
 end
