@@ -1,9 +1,9 @@
-require 'byebug'
+
 class AuthenticateUser
   prepend SimpleCommand
 
-  def initialize(name, password)
-    @username = name
+  def initialize(username, password)
+    @username = username
     @password = password
   end
 
@@ -21,11 +21,9 @@ class AuthenticateUser
   end
 
   def user
-
-    # byebug
     user = User.find_by(username: @username)
     return user if user && user.authenticate(password)
-
+    # byebug
     errors.add :user_authentication, 'invalid credentials'
     nil
   end
