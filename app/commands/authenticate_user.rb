@@ -8,7 +8,6 @@ class AuthenticateUser
   end
 
   def call
-
     JWT.encode({user_id: user.id}, jwt_password, 'HS256') if user
   end
 
@@ -17,12 +16,12 @@ class AuthenticateUser
 
   attr_accessor :username, :password
 
-
   def jwt_password
     ENV["JWT_SECRET_KEY"]
   end
 
   def user
+
     # byebug
     user = User.find_by(username: @username)
     return user if user && user.authenticate(password)

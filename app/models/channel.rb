@@ -1,5 +1,4 @@
 class Channel < ApplicationRecord
-  has_many :notes
-  has_many :users, through: :notes
-  validates_presence_of :title
+  has_many :viewable_notes, foreign_key: "channel_id", class_name: "Note"
+  has_many :users, through: :memberships
 end
