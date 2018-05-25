@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy, :userNotes]
+  skip_before_action :authorize_request, only: [:create]
 
   # GET /users
   def index
@@ -8,11 +9,16 @@ class UsersController < ApplicationController
     render json: @users
   end
 
+
   # GET /users/1
   def show
     render json: @user
   end
 
+  def userNotes
+    @notes = @user.notes
+    render json: @notes
+  end
   # POST /users
   def create
     @user = User.new(user_params)
@@ -50,6 +56,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:username, :name, :password_digest, :email)
+      params.require(:user).permit(:username, :name, :password, :email)
     end
 end
