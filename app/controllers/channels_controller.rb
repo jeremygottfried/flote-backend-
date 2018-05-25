@@ -46,48 +46,8 @@ class ChannelsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def channel_params
-      params.permit(:title)
+      params.require(:channel).permit(:title)
     end
 end
 
 #new user
-body: {
-  title: "figure out relationships",
-  note: {
-    user_id: current_user.id,
-    body: "I don't know"
-  }
-}
-
-
-note:{
-  channel: public_channel
-  user_id:
-  body: "public"
-}
-
-
-notes1:{
-  user_id: 1
-  body: "whatever"
-}
-
-
-channel{
-  notes: [2,3,4]
-  users: [Eric, Jeremy]
-}
-
-membership: {
-  users: []
-}
-
-
-channel{
-  notes: [3,4,6]
-  users: [Grayson, Jeremy]
-}
-
-body: {
-
-}
