@@ -13,13 +13,18 @@ class AuthorizeApiRequest
 
   attr_reader :headers
 
+  def jwt_password
+    ENV["JWT_SECRET_KEY"]
+  end
+
   def user
-    @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
+    @user ||= User.find(decoded_auth_token[0]["user_id"]) if decoded_auth_token
     @user || errors.add(:token, 'Invalid token') && nil
   end
 
   def decoded_auth_token
-    @decoded_auth_token ||= JWT.decode(http_auth_header)
+    # byebug
+    @decoded_auth_token ||= JWT.decode(http_auth_header, jwt_password, true, { algorithm: 'HS256' } )
   end
 
   def http_auth_header
