@@ -7,4 +7,5 @@ class User < ApplicationRecord
   validates_presence_of :username, :name, :password
   validates_uniqueness_of :username
   validates :username, format: { with: /\A[a-zA-Z0-9]+\Z/ }
+  accepts_nested_attributes_for :memberships, :channels, :viewable_notes, :notes 
 end
