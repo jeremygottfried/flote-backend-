@@ -38,6 +38,15 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
+
+  config.action_cable.url = 'http://localhost:4000/cable'
+  config.web_socket_server_url = 'ws://localhost:4000/cable'
+  config.action_cable.allowed_request_origins = [
+   # Local address of our RoR server
+   'http://localhost:4000',
+   # Local address we use for our React standalone client
+   'http://localhost:3000',
+]
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
