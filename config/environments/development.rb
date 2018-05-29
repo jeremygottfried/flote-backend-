@@ -17,7 +17,7 @@ Rails.application.configure do
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
-    config.cache_store = :memory_store
+    config.cache_store = :redis_store
     config.public_file_server.headers = {
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
@@ -26,6 +26,9 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
+
+  #queue adapter
+  config.active_job.queue_adapter = :sidekiq
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local

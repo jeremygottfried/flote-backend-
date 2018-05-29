@@ -1,23 +1,36 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy, :userNotes]
+  # before_action :set_user, only: [:show, :update, :destroy, :userNotes]
   skip_before_action :authorize_request, only: [:create]
 
   # GET /users
+  # def index
+  #   @users = User.all
+  #   render json: @users
+  # end
   def index
-    @users = User.all
+      json = Rails.cache.fetch('users') do
+        User.to_json()
+      end
 
-    render json: @users
-  end
-
+      render json: json
+    end
 
   # GET /users/1
   def show
-    render json: @user
+
+    json = Rails.cache.fetch("user#{params[:id]}") do
+      User.where(id:[params[:id]]).to_json()
+    end
+    render json: json
   end
 
   def userNotes
-    @notes = @user.notes
-    render json: @notes
+
+    json = Rails.cache.fetch(@current_user.cache_key_with_version) do
+      User.where(id:[params[:id].to_i]).includes(:notes).to_json(include: :notes)
+    end
+
+    render json: json
   end
 
   # POST /users

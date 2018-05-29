@@ -3,7 +3,9 @@ class NoteChannel < ApplicationCable::Channel
   def subscribed
     @user = User.find_by(username: params[:username])
     @channel = Channel.find_or_create_by(id: params[:room])
+    if !@user.channels.includes(@channel)
     @user.channels << @channel
+    end
     stream_from "note_#{params[:room]}"
   end
 

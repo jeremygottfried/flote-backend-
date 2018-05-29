@@ -20,6 +20,7 @@ class EditChannel < ApplicationCable::Channel
     @note = Note.find(params[:id])
     @note.body = data["note"]
     if @note.save
+      data["index"] = params["index"]
       data["note_type"] = "note"
       data["id"] = @note.id
       data["body"] = @note.body
