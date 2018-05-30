@@ -15,6 +15,8 @@ class NoteChannel < ApplicationCable::Channel
 
   def receive(data)
 
+
+  if data['action'] == 'create'
     @user = User.find_by(username: params['username'])
     @channel = Channel.find_or_create_by(id: params[:room])
     @note_data = {user: @user, body: data["note"], channel: @channel}
@@ -30,5 +32,8 @@ class NoteChannel < ApplicationCable::Channel
     else
       ActionCable.server.broadcast "note_#{params[:room]}", {message_type: "note_error", errors: @note.errors, notice: "errors", status: :unprocessable_entity}
     end
+  elsif data['action'] == 'delete'
+    @note = Note.find(data['id'])
+    @note.destroy 
   end
 end
