@@ -19,6 +19,7 @@ class NotesController < ApplicationController
 
     if @note.save
       render json: @note, status: :created, location: @note
+      ActionCable.server.broadcast "note_#{note_params[:user_id]}", note_params
     else
       render json: @note.errors, status: :unprocessable_entity
     end
