@@ -12,12 +12,11 @@ class EditChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-
     # @user = User.find_by(username: params['username'])
     # @channel = Channel.find_or_create_by(id: params[:room])
     # @note_data = {user: @user, body: data["note"], channel: @channel}
 
-    @note = Note.find(params[:id])
+    @note = Note.find(data['id'])
     @note.body = data["note"]
     if @note.save
       data["note_type"] = "note"
