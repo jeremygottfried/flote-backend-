@@ -34,6 +34,7 @@ class NoteChannel < ApplicationCable::Channel
     end
   elsif data['action'] == 'delete'
     @note = Note.find(data['id'])
-    @note.destroy 
+    @note.destroy
   end
+end
 end
