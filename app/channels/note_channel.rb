@@ -34,7 +34,7 @@ class NoteChannel < ApplicationCable::Channel
   elsif data['act'] == 'delete'
     @note = Note.find(data['id'])
     @note.destroy
-
+    ActionCable.server.broadcast "note_#{params[:room]}", data
   end
 end
 end
