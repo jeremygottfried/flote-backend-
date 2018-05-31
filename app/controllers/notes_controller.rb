@@ -19,7 +19,14 @@ class NotesController < ApplicationController
 
     if @note.save
       render json: @note, status: :created, location: @note
-      ActionCable.server.broadcast "note_#{note_params[:user_id]}", note_params
+      data = {
+        "body" => note_params[:body],
+        "user_id" => note_params[:user_id],
+        "id" => @note.id,
+        "act" => 'create',
+        "channel_id" => note_params[:channel_id]
+      }
+      ActionCable.server.broadcast "note_#{note_params[:user_id]}", data
     else
       render json: @note.errors, status: :unprocessable_entity
     end
