@@ -22,7 +22,6 @@ class RealTimeTypingChannel < ApplicationCable::Channel
         # @note_data = {user: @user, body: data["note"], channel: @channel}
 puts data["body"]
       data["note_type"] = "note"
-      data['user'] = params['username']
       ActionCable.server.broadcast "#{data["room"]}", data
     # else
     #   ActionCable.server.broadcast "note_#{params[:room]}", {message_type: "note_error", errors: @note.errors, notice: "errors", status: :unprocessable_entity}

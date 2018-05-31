@@ -36,6 +36,12 @@ class NotesController < ApplicationController
 
   # DELETE /notes/1
   def destroy
+    data = {
+      'act' => 'delete',
+      'id' => note_params[:id],
+      'index' => note_params[:index]
+    }
+    ActionCable.server.broadcast "note_#{@note.user.id}", data
     @note.destroy
   end
 
@@ -47,6 +53,6 @@ class NotesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def note_params
-      params.permit(:body, :user_id, :channel_id)
+      params.permit(:body, :id, :user_id, :channel_id, :index)
     end
 end

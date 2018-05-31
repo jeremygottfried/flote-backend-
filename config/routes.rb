@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :channels
   resources :notes
   resources :users
+  delete '/notes/:id/:index', to: 'notes#destroy'
   post '/login', to: 'authentication#authenticate'
   post '/register', to: 'authentication#register'
   get '/user/:id/notes', to: 'users#userNotes'
